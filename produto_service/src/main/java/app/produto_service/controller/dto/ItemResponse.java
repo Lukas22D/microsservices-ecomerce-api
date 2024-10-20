@@ -1,5 +1,9 @@
 package app.produto_service.controller.dto;
 
+import java.util.List;
+
+import app.ecomerce.model.Item;
+
 public record ItemResponse(Long id, String name, String description, String price, Integer stock, Long customerId) {
     
         public ItemResponse(Long id, String name, String description, String price, Integer stock, Long customerId) {
@@ -11,6 +15,18 @@ public record ItemResponse(Long id, String name, String description, String pric
             this.customerId = customerId;
         }
 
-        
+        public static List<ItemResponse> fromList(List<Item> items) {
+        return items.stream().map(
+            item -> new ItemResponse(
+                item.getId(),
+                item.getName(),
+                item.getDescription(),
+                item.getPrice().toString(),
+                item.getStock(),
+                item.getCustomer().getId()
+            )
+        ).toList();
+    }
+
     
 }

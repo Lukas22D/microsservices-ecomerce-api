@@ -7,6 +7,7 @@ import java.util.concurrent.CompletableFuture;
 
 import app.ecomerce.model.Item;
 import app.produto_service.controller.dto.ItemRequest;
+import app.produto_service.controller.dto.ItemResponse;
 import app.produto_service.repository.CustomerRepository;
 import app.produto_service.repository.ItemRepository;
 import app.produto_service.service.ItemService;
@@ -29,6 +30,11 @@ public class ItemServiceCore implements ItemService {
             c.addItem(newItem);
             return CompletableFuture.completedFuture(itemRepository.save(newItem));
         }).orElseThrow( () -> new EntityNotFoundException("Customer not found"));
+    }
+
+    @Override
+    public List<ItemResponse> getAllItemsByCustomerId(Long customerId) {
+        return ItemResponse.fromList(itemRepository.findByCustomerId(customerId));
     }
 
     public Item getItemById(Long id) {
